@@ -514,8 +514,10 @@ void print_results()
     std::tie(mean, stdev) = mean_stdev(&gt(GlobalTally::LEAKAGE, 0), n);
     fmt::print(" Leakage Fraction            = {:.5f} +/- {:.5f}\n",
       mean, t_n1 * stdev);
-    fmt::print("\n");
-    fmt::print(" Eigenvalue figure of merit  = {:.5e} 1/m\n", 60./(relstd*relstd*elapsed_tracking));
+    if (n > 3) {
+      fmt::print("\n");
+      fmt::print(" Eigenvalue figure of merit  = {:.5e} 1/m\n", 60./(relstd*relstd*elapsed_tracking));
+    }
   } else {
     if (mpi::master) warning("Could not compute uncertainties -- only one "
       "active batch simulated!");
