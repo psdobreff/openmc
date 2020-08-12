@@ -489,7 +489,7 @@ void print_results()
 
   // write global tallies
   const auto& gt = simulation::global_tallies;
-  double mean, stdev;
+  double mean, stdev, relstd, elapsed_tracking;
   if (n > 1) {
     if (settings::run_mode == RunMode::EIGENVALUE) {
       std::tie(mean, stdev) = mean_stdev(&gt(GlobalTally::K_COLLISION, 0), n);
@@ -506,11 +506,16 @@ void print_results()
         openmc_get_keff(k_combined);
         fmt::print(" Combined k-effective        = {:.5f} +/- {:.5f}\n",
           k_combined[0], k_combined[1]);
+
+        relstd = k_combined[1]/k_combined[0];
+        elapsed_tracking = simulation::time_inactive.elapsed()+simulation::time_active.elapsed();
       }
     }
     std::tie(mean, stdev) = mean_stdev(&gt(GlobalTally::LEAKAGE, 0), n);
     fmt::print(" Leakage Fraction            = {:.5f} +/- {:.5f}\n",
       mean, t_n1 * stdev);
+    fmt::print("\n");
+    fmt::print(" Eigenvalue figure of merit  = {:.5e} 1/m\n", 60./(relstd*relstd*elapsed_tracking));
   } else {
     if (mpi::master) warning("Could not compute uncertainties -- only one "
       "active batch simulated!");
