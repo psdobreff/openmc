@@ -506,7 +506,6 @@ void print_results()
         openmc_get_keff(k_combined);
         fmt::print(" Combined k-effective        = {:.5f} +/- {:.5f}\n",
           k_combined[0], k_combined[1]);
-
         relstd = k_combined[1]/k_combined[0];
         elapsed_tracking = simulation::time_inactive.elapsed()+simulation::time_active.elapsed();
       }
