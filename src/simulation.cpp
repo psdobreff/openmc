@@ -286,6 +286,8 @@ const RegularMesh* ufs_mesh {nullptr};
 std::vector<double> k_generation;
 std::vector<int64_t> work_index;
 
+double pcount {0.0};
+double collrate {0.0};
 
 } // namespace simulation
 
@@ -690,12 +692,18 @@ void transport_history_based_single_particle(Particle& p)
 
 void transport_history_based()
 {
+  double pete;
   #pragma omp parallel for schedule(runtime)
   for (int64_t i_work = 1; i_work <= simulation::work_per_rank; ++i_work) {
     Particle p;
+    openmc::simulation::pcount += 1;
     initialize_history(p, i_work);
     transport_history_based_single_particle(p);
+    openmc::simulation::collrate += p.n_collision_;
   }
+  pete = simulation::collrate/simulation::pcount;
+  std::cout << simulation::pcount << ' ' << pete << std::endl;
+
 }
 
 void transport_event_based()
