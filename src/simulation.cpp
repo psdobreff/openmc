@@ -692,17 +692,19 @@ void transport_history_based_single_particle(Particle& p)
 
 void transport_history_based()
 {
-  double pete;
+  double coll_per_particle;
   #pragma omp parallel for schedule(runtime)
   for (int64_t i_work = 1; i_work <= simulation::work_per_rank; ++i_work) {
     Particle p;
-    openmc::simulation::pcount += 1;
+    #pragma omp atomic
+    simulation::pcount += 1;
     initialize_history(p, i_work);
     transport_history_based_single_particle(p);
-    openmc::simulation::collrate += p.n_collision_;
+    #pragma omp atomic
+    simulation::collrate += p.n_collision_;
   }
-  pete = simulation::collrate/simulation::pcount;
-  std::cout << simulation::pcount << ' ' << pete << std::endl;
+  coll_per_particle = simulation::collrate/simulation::pcount;
+  std::cout << simulation::pcount << ' ' << coll_per_particle << std::endl;
 }
 
 void transport_event_based()
