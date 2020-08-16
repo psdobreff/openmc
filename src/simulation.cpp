@@ -703,7 +703,6 @@ void transport_history_based()
   }
   pete = simulation::collrate/simulation::pcount;
   std::cout << simulation::pcount << ' ' << pete << std::endl;
-
 }
 
 void transport_event_based()
