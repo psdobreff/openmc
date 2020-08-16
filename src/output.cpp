@@ -489,7 +489,7 @@ void print_results()
 
   // write global tallies
   const auto& gt = simulation::global_tallies;
-  double mean, stdev, relstd, elapsed_tracking;
+  double mean, stdev, relstd, elapsed_tracking, coll_per_particle;
   if (n > 1) {
     if (settings::run_mode == RunMode::EIGENVALUE) {
       std::tie(mean, stdev) = mean_stdev(&gt(GlobalTally::K_COLLISION, 0), n);
@@ -517,6 +517,8 @@ void print_results()
       fmt::print("\n");
       fmt::print(" Eigenvalue figure of merit  = {:.5e} 1/m\n", 60./(relstd*relstd*elapsed_tracking));
     }
+    coll_per_particle = simulation::collrate/simulation::pcount;
+    fmt::print(" Collisions per particle     = {:.5f}\n", coll_per_particle);
   } else {
     if (mpi::master) warning("Could not compute uncertainties -- only one "
       "active batch simulated!");
