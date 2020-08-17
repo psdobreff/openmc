@@ -717,6 +717,7 @@ void transport_event_based()
   while (remaining_work > 0) {
     // Figure out # of particles to run for this subiteration
     int64_t n_particles = std::min(remaining_work, settings::max_particles_in_flight);
+    simulation::pcount += n_particles;
 
     // Initialize all particle histories for this subiteration
     process_init_events(n_particles, source_offset);
@@ -730,7 +731,6 @@ void transport_event_based()
         simulation::advance_particle_queue.size(),
         simulation::surface_crossing_queue.size(),
         simulation::collision_queue.size()});
-
       // Execute event with the longest queue
       if (max == 0) {
         break;
@@ -744,6 +744,7 @@ void transport_event_based()
         process_surface_crossing_events();
       } else if (max == simulation::collision_queue.size()) {
         process_collision_events();
+	simulation::collrate += max;
       }
     }
 
