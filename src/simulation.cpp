@@ -715,6 +715,9 @@ void transport_event_based()
   // of particles that need to be run this iteration, the event-based transport
   // loop is executed multiple times until all particles have been completed.
   while (remaining_work > 0) {
+
+    std::cout << " remaining work " << remaining_work << std::endl;
+
     // Figure out # of particles to run for this subiteration
     int64_t n_particles = std::min(remaining_work, settings::max_particles_in_flight);
     simulation::pcount += n_particles;
@@ -722,8 +725,16 @@ void transport_event_based()
     // Initialize all particle histories for this subiteration
     process_init_events(n_particles, source_offset);
 
+
     // Event-based transport loop
     while (true) {
+
+      std::cout << " fuel      " << simulation::calculate_fuel_xs_queue.size() << std::endl;
+      std::cout << " nonfuel   " << simulation::calculate_nonfuel_xs_queue.size() << std::endl;
+      std::cout << " advance   " << simulation::advance_particle_queue.size() << std::endl;
+      std::cout << " surface   " << simulation::surface_crossing_queue.size() << std::endl;
+      std::cout << " collision " <<simulation::collision_queue.size() << std::endl;
+
       // Determine which event kernel has the longest queue
       int64_t max = std::max({
         simulation::calculate_fuel_xs_queue.size(),
@@ -732,6 +743,7 @@ void transport_event_based()
         simulation::surface_crossing_queue.size(),
         simulation::collision_queue.size()});
       // Execute event with the longest queue
+      std::cout << " max       " << max << std::endl;
       if (max == 0) {
         break;
       } else if (max == simulation::calculate_fuel_xs_queue.size()) {
