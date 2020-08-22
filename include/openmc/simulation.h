@@ -45,8 +45,8 @@ extern const RegularMesh* ufs_mesh;
 extern std::vector<double> k_generation;
 extern std::vector<int64_t> work_index;
 
-extern "C" double pcount;
-extern "C" double collrate;
+extern "C" double p_count;
+extern "C" double coll_rate;
 
 } // namespace simulation
 

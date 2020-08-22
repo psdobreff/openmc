@@ -286,8 +286,8 @@ const RegularMesh* ufs_mesh {nullptr};
 std::vector<double> k_generation;
 std::vector<int64_t> work_index;
 
-double pcount {0.0};
-double collrate {0.0};
+double p_count {0.0};
+double coll_rate {0.0};
 
 } // namespace simulation
 
@@ -696,11 +696,11 @@ void transport_history_based()
   for (int64_t i_work = 1; i_work <= simulation::work_per_rank; ++i_work) {
     Particle p;
     #pragma omp atomic
-    simulation::pcount += 1;
+    simulation::p_count += 1;
     initialize_history(p, i_work);
     transport_history_based_single_particle(p);
     #pragma omp atomic
-    simulation::collrate += p.n_collision_;
+    simulation::coll_rate += p.n_collision_;
   }
 }
 
@@ -717,7 +717,7 @@ void transport_event_based()
   while (remaining_work > 0) {
     // Figure out # of particles to run for this subiteration
     int64_t n_particles = std::min(remaining_work, settings::max_particles_in_flight);
-    simulation::pcount += n_particles;
+    simulation::p_count += n_particles;
 
     // Initialize all particle histories for this subiteration
     process_init_events(n_particles, source_offset);
@@ -744,7 +744,7 @@ void transport_event_based()
         process_surface_crossing_events();
       } else if (max == simulation::collision_queue.size()) {
         process_collision_events();
-	simulation::collrate += max;
+	simulation::coll_rate += max;
       }
     }
 
