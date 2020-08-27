@@ -369,6 +369,17 @@ int openmc_get_keff(double* k_combined)
   // Initialize variables
   int64_t n = simulation::n_realizations;
 
+  double t_value;
+  if (n > 1) {
+    if (settings::confidence_intervals) {
+      // Calculate t-value for confidence intervals
+      double alpha = 1.0 - CONFIDENCE_LEVEL;
+      t_value = t_percentile(1.0 - alpha/2.0, n - 1);
+    } else {
+      t_value = 1.0;
+    }
+  }
+
   // Copy estimates of k-effective and its variance (not variance of the mean)
   const auto& gt = simulation::global_tallies;
 
@@ -478,7 +489,7 @@ int openmc_get_keff(double* k_combined)
 
     // Calculate standard deviation of combined estimate
     g *= (n - 1)*(n - 1);
-    k_combined[1] = std::sqrt(S[0] / (g*n*(n - 3)) *
+    k_combined[1] = t_value*std::sqrt(S[0] / (g*n*(n - 3)) *
       (1 + n*((S[1] - 2*S[2]) / g)));
 
   } else {
@@ -497,7 +508,7 @@ int openmc_get_keff(double* k_combined)
     // Calculate standard deviation of combined estimate
     k_combined[1] = (cov(i, i)*cov(j, j) - cov(i, j)*cov(i, j)) *
           (g + n*f*f) / (n*(n - 2)*g*g);
-    k_combined[1] = std::sqrt(k_combined[1]);
+    k_combined[1] = t_value*std::sqrt(k_combined[1]);
 
   }
   return 0;

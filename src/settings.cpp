@@ -41,7 +41,7 @@ namespace settings {
 bool assume_separate         {false};
 bool check_overlaps          {false};
 bool cmfd_run                {false};
-bool confidence_intervals    {false};
+bool confidence_intervals    {true};
 bool create_fission_neutrons {true};
 bool dagmc                   {false};
 bool delayed_photon_scaling  {true};
