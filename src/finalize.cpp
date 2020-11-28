@@ -71,7 +71,7 @@ int openmc_finalize()
   // Reset global variables
   settings::assume_separate = false;
   settings::check_overlaps = false;
-  settings::confidence_intervals = false;
+  settings::confidence_intervals = true;
   settings::create_fission_neutrons = true;
   settings::electron_treatment = ElectronTreatment::LED;
   settings::delayed_photon_scaling = true;
@@ -100,7 +100,7 @@ int openmc_finalize()
   settings::source_latest = false;
   settings::source_separate = false;
   settings::source_write = true;
-  settings::survival_biasing = false;
+  settings::survival_biasing = true;
   settings::temperature_default = 293.6;
   settings::temperature_method = TemperatureMethod::NEAREST;
   settings::temperature_multipole = false;

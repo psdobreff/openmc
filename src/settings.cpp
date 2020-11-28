@@ -60,7 +60,7 @@ bool run_CE                  {true};
 bool source_latest           {false};
 bool source_separate         {false};
 bool source_write            {true};
-bool survival_biasing        {false};
+bool survival_biasing        {true};
 bool temperature_multipole   {false};
 bool trigger_on              {false};
 bool trigger_predict         {false};
