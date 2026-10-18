@@ -640,7 +640,7 @@ void print_results()
     double t_active = simulation::time_active.elapsed();
     if (k_combined[0] > 0.0 && k_combined[1] > 0.0 && t_active > 0.0) {
       double rel_err = k_combined[1] / k_combined[0];
-      fmt::print(" Eigenvalue figure of merit  ={:.5e} 1/s\n",
+      fmt::print(" Eigenvalue figure of merit  = {:.5e} 1/s\n",
         1.0 / (rel_err * rel_err * t_active));
     }
   }
