@@ -232,6 +232,13 @@ int openmc_simulation_finalize()
     if (mpi::master)
       simulation::simulation_tracks_completed = total_tracks;
   }
+
+  // Each rank only counts collisions for the particles it transported
+  int64_t total_collisions;
+  MPI_Reduce(&simulation::simulation_collisions_completed, &total_collisions, 1,
+    MPI_INT64_T, MPI_SUM, 0, mpi::intracomm);
+  if (mpi::master)
+    simulation::simulation_collisions_completed = total_collisions;
 #endif
 
   if (mpi::master) {
@@ -353,6 +360,7 @@ vector<double> k_generation;
 vector<int64_t> work_index;
 
 int64_t simulation_tracks_completed {0};
+int64_t simulation_collisions_completed {0};
 
 } // namespace simulation
 
@@ -727,6 +735,9 @@ void initialize_particle_track(
 
   // Initialize track counter (1 for this primary/secondary track)
   p.n_tracks() = 1;
+
+  // Reset collision counter for this history
+  p.n_collision_history() = 0;
 
   // Reset split counter
   p.n_split() = 0;

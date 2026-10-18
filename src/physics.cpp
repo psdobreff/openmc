@@ -44,6 +44,7 @@ void collision(Particle& p)
 {
   // Add to collision counter for particle
   ++(p.n_collision());
+  ++(p.n_collision_history());
   p.secondary_bank_index() = p.local_secondary_bank().size();
 
   // Sample reaction for the material the particle is in

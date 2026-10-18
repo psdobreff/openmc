@@ -245,6 +245,7 @@ int openmc_reset()
 
   simulation::n_lost_particles = 0;
   simulation::simulation_tracks_completed = 0;
+  simulation::simulation_collisions_completed = 0;
 
   return 0;
 }

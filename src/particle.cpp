@@ -615,6 +615,10 @@ void Particle::event_death()
     simulation::simulation_tracks_completed += n_tracks();
   }
 
+  // Accumulate collision count for this particle history
+#pragma omp atomic
+  simulation::simulation_collisions_completed += n_collision_history();
+
   // Record the number of progeny created by this particle.
   // This data will be used to efficiently sort the fission bank.
   if (settings::run_mode == RunMode::EIGENVALUE ||

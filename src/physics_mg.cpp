@@ -27,6 +27,7 @@ void collision_mg(Particle& p)
 {
   // Add to the collision counter for the particle
   p.n_collision()++;
+  p.n_collision_history()++;
   p.secondary_bank_index() = p.local_secondary_bank().size();
 
   // Sample the reaction type

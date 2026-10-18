@@ -629,6 +629,18 @@ void print_results()
     fmt::print(" Leakage Fraction           = {:.5f}\n",
       gt(GlobalTally::LEAKAGE, TallyResult::SUM) / n);
   }
+
+  // Average number of collisions per source particle over all batches
+  // simulated in this run (inactive and active)
+  int n_batches_run = simulation::current_batch -
+                      (settings::restart_run ? simulation::restart_batch : 0);
+  int64_t n_histories =
+    settings::n_particles * settings::gen_per_batch * n_batches_run;
+  if (n_histories > 0) {
+    fmt::print("\n Collisions per Particle     = {:.5f}\n",
+      static_cast<double>(simulation::simulation_collisions_completed) /
+        n_histories);
+  }
   fmt::print("\n");
   std::fflush(stdout);
 }
