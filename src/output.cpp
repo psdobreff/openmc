@@ -630,6 +630,21 @@ void print_results()
       gt(GlobalTally::LEAKAGE, TallyResult::SUM) / n);
   }
 
+  fmt::print("\n");
+
+  // Figure of merit, FOM = 1 / (R^2 * T), based on the relative standard
+  // deviation R of the combined k-effective and the active batch time T
+  if (settings::run_mode == RunMode::EIGENVALUE && n > 3) {
+    double k_combined[2];
+    openmc_get_keff(k_combined);
+    double t_active = simulation::time_active.elapsed();
+    if (k_combined[0] > 0.0 && k_combined[1] > 0.0 && t_active > 0.0) {
+      double rel_err = k_combined[1] / k_combined[0];
+      fmt::print(" Eigenvalue figure of merit  ={:.5e} 1/s\n",
+        1.0 / (rel_err * rel_err * t_active));
+    }
+  }
+
   // Average number of collisions per source particle over all batches
   // simulated in this run (inactive and active)
   int n_batches_run = simulation::current_batch -
@@ -637,7 +652,7 @@ void print_results()
   int64_t n_histories =
     settings::n_particles * settings::gen_per_batch * n_batches_run;
   if (n_histories > 0) {
-    fmt::print("\n Collisions per Particle     = {:.5f}\n",
+    fmt::print(" Collisions per particle     = {:.5f}\n",
       static_cast<double>(simulation::simulation_collisions_completed) /
         n_histories);
   }
