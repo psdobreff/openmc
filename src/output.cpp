@@ -619,7 +619,7 @@ void print_results()
         double k_combined[2];
         openmc_get_keff(k_combined);
         fmt::print(" Combined k-effective        = {:.5f} +/- {:.5f}\n",
-          k_combined[0], t_n1 * k_combined[1]);
+          k_combined[0], t_n3 * k_combined[1]);
       }
     }
     std::tie(mean, stdev) = mean_stdev(&gt(GlobalTally::LEAKAGE, 0), n);
