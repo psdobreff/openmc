@@ -497,6 +497,10 @@ void initialize_batch()
     }
   }
 
+  // Restart the timer measuring the compute time of this batch
+  simulation::time_batch.reset();
+  simulation::time_batch.start();
+
   // Reset total starting particle weight used for normalizing tallies
   simulation::total_weight = 0.0;
 

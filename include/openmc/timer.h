@@ -15,6 +15,7 @@ namespace simulation {
 
 extern Timer time_active;
 extern Timer time_bank;
+extern Timer time_batch;
 extern Timer time_bank_sample;
 extern Timer time_bank_sendrecv;
 extern Timer time_finalize;

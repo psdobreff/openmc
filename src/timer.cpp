@@ -10,6 +10,7 @@ namespace simulation {
 
 Timer time_active;
 Timer time_bank;
+Timer time_batch;
 Timer time_bank_sample;
 Timer time_bank_sendrecv;
 Timer time_finalize;
@@ -77,6 +78,7 @@ void reset_timers()
 {
   simulation::time_active.reset();
   simulation::time_bank.reset();
+  simulation::time_batch.reset();
   simulation::time_bank_sample.reset();
   simulation::time_bank_sendrecv.reset();
   simulation::time_finalize.reset();
