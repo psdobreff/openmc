@@ -49,7 +49,7 @@ extern Timer time_mpi_imbalance;
 
 class Timer {
 public:
-  using clock = std::chrono::high_resolution_clock;
+  using clock = std::chrono::steady_clock;
 
   Timer() {};
 
