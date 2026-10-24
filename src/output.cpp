@@ -422,12 +422,12 @@ void print_columns()
 {
   if (settings::entropy_on) {
     fmt::print("  Bat./Gen.      k       Entropy         Average k"
-               "              Time\n"
+               "           Time\n"
                "  =========   ========   ========   ===================="
-               "      =======\n");
+               "   =======\n");
   } else {
-    fmt::print("  Bat./Gen.      k            Average k              Time\n"
-               "  =========   ========   ====================      =======\n");
+    fmt::print("  Bat./Gen.      k            Average k           Time\n"
+               "  =========   ========   ====================   =======\n");
   }
 }
 
@@ -463,7 +463,7 @@ void print_generation()
   }
 
   if (batch_done) {
-    fmt::print("   {:10.4f}", simulation::time_batch.elapsed());
+    fmt::print("   {:7.4f}", simulation::time_batch.elapsed());
   }
   fmt::print("\n");
   std::fflush(stdout);
