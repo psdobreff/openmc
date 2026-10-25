@@ -576,9 +576,11 @@ int openmc_get_keff(double* k_combined)
     // Calculate combined estimate of k-effective
     k_combined[0] = kv[i] - (cov(i, i) - cov(i, j)) / g * f;
 
-    // Calculate standard deviation of combined estimate
+    // Calculate standard deviation of combined estimate. Since cov holds
+    // sample covariances rather than the sums of cross products used by
+    // Urbatsch, a factor of (n - 1) is applied to g.
     k_combined[1] = (cov(i, i) * cov(j, j) - cov(i, j) * cov(i, j)) *
-                    (g + n * f * f) / (n * (n - 2) * g * g);
+                    ((n - 1) * g + n * f * f) / (n * (n - 2) * g * g);
     k_combined[1] = std::sqrt(k_combined[1]);
   }
   return 0;
