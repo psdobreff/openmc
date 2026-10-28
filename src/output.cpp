@@ -607,24 +607,24 @@ void print_results()
   if (n > 1) {
     if (settings::run_mode == RunMode::EIGENVALUE) {
       std::tie(mean, stdev) = mean_stdev(&gt(GlobalTally::K_COLLISION, 0), n);
-      fmt::print(" k-effective (Collision)     = {:.5f} +/- {:.5f}\n", mean,
+      fmt::print(" k-effective (Collision)     = {:.5f} +/- {:.4e}\n", mean,
         t_n1 * stdev);
       std::tie(mean, stdev) = mean_stdev(&gt(GlobalTally::K_TRACKLENGTH, 0), n);
-      fmt::print(" k-effective (Track-length)  = {:.5f} +/- {:.5f}\n", mean,
+      fmt::print(" k-effective (Track-length)  = {:.5f} +/- {:.4e}\n", mean,
         t_n1 * stdev);
       std::tie(mean, stdev) = mean_stdev(&gt(GlobalTally::K_ABSORPTION, 0), n);
-      fmt::print(" k-effective (Absorption)    = {:.5f} +/- {:.5f}\n", mean,
+      fmt::print(" k-effective (Absorption)    = {:.5f} +/- {:.4e}\n", mean,
         t_n1 * stdev);
       if (n > 3) {
         double k_combined[2];
         openmc_get_keff(k_combined);
-        fmt::print(" Combined k-effective        = {:.5f} +/- {:.5f}\n",
+        fmt::print(" Combined k-effective        = {:.5f} +/- {:.4e}\n",
           k_combined[0], t_n3 * k_combined[1]);
       }
     }
     std::tie(mean, stdev) = mean_stdev(&gt(GlobalTally::LEAKAGE, 0), n);
     fmt::print(
-      " Leakage Fraction            = {:.5f} +/- {:.5f}\n", mean, t_n1 * stdev);
+      " Leakage Fraction            = {:.5f} +/- {:.4e}\n", mean, t_n1 * stdev);
   } else {
     if (mpi::master)
       warning("Could not compute uncertainties -- only one "
