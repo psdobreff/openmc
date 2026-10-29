@@ -463,7 +463,7 @@ void print_generation()
   }
 
   if (batch_done) {
-    fmt::print("   {:11.4e}", simulation::time_batch.elapsed());
+    fmt::print("    {:10.4e}", simulation::time_batch.elapsed());
   }
   fmt::print("\n");
   std::fflush(stdout);
