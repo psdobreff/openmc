@@ -422,12 +422,12 @@ void print_columns()
 {
   if (settings::entropy_on) {
     fmt::print("  Bat./Gen.       k       Entropy         Average k"
-               "             Time\n"
-               "  =========   ========   ========   ======================="
-               "   ===========\n");
+               "            Time\n"
+               "  =========    =======    =======    ==================="
+               "    ==========\n");
   } else {
-    fmt::print("  Bat./Gen.       k             Average k             Time\n"
-               "  =========   ========   =======================   ===========\n");
+    fmt::print("  Bat./Gen.       k             Average k           Time\n"
+               "  =========    =======    ===================    ==========\n");
   }
 }
 
@@ -457,9 +457,9 @@ void print_generation()
   bool batch_done = simulation::current_gen == settings::gen_per_batch;
 
   if (n > 1) {
-    fmt::print("   {:8.5f} +/- {:10.4e}", simulation::keff, simulation::keff_std);
+    fmt::print("    {:7.5f} +/- {:7.5f}", simulation::keff, simulation::keff_std);
   } else if (batch_done) {
-    fmt::print("   {:23}", "");
+    fmt::print("   {:20}", "");
   }
 
   if (batch_done) {
