@@ -11,6 +11,7 @@ set(TEST_NAMES
   test_photon
   test_ray
   test_region
+  test_scattdata
   test_surface
   test_tensor
   test_geometry
